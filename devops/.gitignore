@@ -1,0 +1,6 @@
+docker-compose.yml
+variables.env
+Dockerfile
+!/ci
+!/ci/*
+!/ci/docker-compose.yml

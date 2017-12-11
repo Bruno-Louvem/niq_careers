@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export DATABASE_URL=postgres://niq_user:niq_pass@postgres_niq_careers/niq_db
+export MIX_ENV=local
