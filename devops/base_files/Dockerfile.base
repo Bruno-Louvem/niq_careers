@@ -1,0 +1,15 @@
+FROM bitwalker/alpine-elixir:1.5.0
+
+LABEL version="<#VERSION#>"
+
+<#ENV#>
+
+RUN apk update
+RUN apk --update upgrade
+RUN apk add --update build-base bash curl py-pip jq openssh-client
+RUN pip install awscli
+
+RUN /usr/local/bin/mix local.hex --force && \
+    /usr/local/bin/mix local.rebar --force
+
+WORKDIR /opt/app

@@ -1,0 +1,35 @@
+# App artifacts
+/_build
+# Ignore .fetch files in case you like to edit your project deps locally.
+/.fetch
+# If you run "mix test --cover", coverage assets end up here.
+/cover
+/db
+# Where 3rd-party dependencies like ExDoc output generated docs.
+/doc
+/deps
+/*.ez
+/.hex
+/.mix
+/.cache
+.ash_history
+.bash_history
+
+# Generated on crash by the VM
+erl_crash.dump
+
+# The config/prod.secret.exs file by default contains sensitive
+# data and you should not commit it into version control.
+#
+# Alternatively, you may comment the line below and commit the
+# secrets file as long as you replace its contents by environment
+# variables.
+/config/prod.secret.exs
+
+# If the VM crashes, it generates a dump, let's ignore it too.
+erl_crash.dump
+
+# Also ignore archive artifacts (built via "mix archive.build").
+*.ez
+
+/env/local.sh
