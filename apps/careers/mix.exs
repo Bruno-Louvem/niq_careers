@@ -31,10 +31,12 @@ defmodule Careers.Mixfile do
     # Run "mix help deps" to learn about dependencies.
     defp deps do
         [
-            {:faker_elixir_octopus, "~> 1.0.0",  only: non_production()}
+            {:faker_elixir_octopus, "~> 1.0.0",  only: non_production()},
+            {:postgrex, ">= 0.0.0"},
+            {:ecto, "~> 2.1"}
         ]
     end
 
-    defp non_production, do: [:local, :test] 
+    defp non_production, do: [:local, :test]
 
 end
