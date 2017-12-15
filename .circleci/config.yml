@@ -1,0 +1,196 @@
+version: 2
+jobs:
+  build_base_image:
+      working_directory: /app
+      docker:
+        - image: docker:17.05.0-ce-git
+      steps:
+        - checkout
+        - setup_remote_docker
+
+        # Install dependencies (pip, docker-compose and aws-cli)
+        - run:
+            name: Install dependencies
+            command: |
+              apk add --no-cache \
+                py-pip=9.0.0-r1
+              pip install \
+                docker-compose
+
+        # Restore cache from /cache/app-docker-image.tar
+        - restore_cache:
+            name: Restore docker's image cache
+            keys:
+              - v4-{{ .Branch }}
+            paths:
+              - /caches/app-docker-image.tar
+
+        # Load docker imagem from cache
+        - run:
+            name: Load Docker image layer cache
+            command: |
+              set +o pipefail
+              docker load -i /caches/app-docker-image.tar | true
+
+        # Generate Dockerfile by custom script
+        - run:
+            name: Generate Dockerfile
+            command: |
+              ./devops/build_files.py
+
+        # Build Docker image
+        - run:
+            name: Build application Docker image
+            command: |
+              docker build --cache-from=app-docker-image -t app-docker-image:latest -f ./devops/ci/Dockerfile .
+
+        # Save image on cache
+        - run:
+            name: Save Docker image layer cache
+            command: |
+              mkdir -p /caches
+              docker save -o /caches/app-docker-image.tar app-docker-image
+
+        # Save cache on /cache/app-docker-image.tar
+        - save_cache:
+            name: Save docker's image cache
+            key: v4-{{ .Branch }}-{{ epoch }}
+            paths:
+              - /caches/app-docker-image.tar
+
+  test:
+    working_directory: /app
+    docker:
+      - image: docker:17.05.0-ce-git
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      # Install dependencies (pip, bash, curl and docker-compose)
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache \
+              py-pip=9.0.0-r1 \
+              bash \
+              curl \
+              curl-dev
+            pip install \
+              docker-compose
+
+      # Restore cache on /cache/app-docker-image.tar
+      - restore_cache:
+          name: Restore docker's image cache
+          keys:
+            - v4-{{ .Branch }}
+          paths:
+            - /caches/app-docker-image.tar
+
+      # Load docker imagem from cache
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app-docker-image.tar | true
+
+      # Restore cache on compiled dependencies
+      - restore_cache:
+          name: Restore _build cache
+          keys:
+            - v4-cache-build-{{ checksum "mix.lock" }}
+
+      # Load docker imagem from cache
+      - run:
+          name: Untar cache to source code folder
+          command: |
+            set +o pipefail
+            tar -xf /caches/_build.tar -C /app/ | true
+            tar -xf /caches/deps.tar -C /app/ | true
+            tar -xf /caches/mix.tar -C /app/ | true
+            tar -xf /caches/cache.tar -C /app/ | true
+
+      # Run docker-compose and copy content of app folder to container instance
+      - run:
+          name: "Run docker-compose"
+          command: |
+            set -x
+            docker-compose -f /app/devops/ci/docker-compose.yml up -d
+            docker cp /app $(docker ps -l -q):/opt/
+
+      # Get application's dependencies, compile and run tests, after this,
+      # copy ./cover folder to outside of the container to be handled by codecov
+      - run:
+          name: "Run tests"
+          command: |
+            docker exec -it $(docker ps -l -q) \
+            /bin/sh -c \
+            "cd /opt/app;
+            ./devops/credentials_management.sh;
+            mix deps.get;
+            MIX_ENV=local mix coveralls.json --umbrella --include external;"
+
+      - run:
+          name: "Copy cacheable folders from docker's container"
+          command: |
+            docker cp $(docker ps -l -q):/opt/app/cover /app/cover
+            docker cp $(docker ps -l -q):/opt/app/_build /app/_build
+            docker cp $(docker ps -l -q):/opt/app/deps /app/deps
+            docker cp $(docker ps -l -q):/opt/app/.mix /app/.mix
+            docker cp $(docker ps -l -q):/opt/app/.cache /app/.cache
+
+      # Get codecov script by cURL and put on codecov.sh,
+      # after change permissions at codecov.sh, fillaly run there
+      - run:
+          name: "Send coverage"
+          command: |
+            curl -s https://codecov.io/bash > codecov.sh
+            chmod +x codecov.sh
+            ./codecov.sh -t 3292d37f-d304-447f-8dbb-9a20efaa852f || echo "Codecov did not collect coverage reports;"
+
+      - run:
+          name: "Compress and move _build to be cached"
+          command: |
+            cd /app/
+            tar -cf _build.tar _build
+            mv _build.tar /caches/
+
+      - run:
+          name: "Compress and move deps to be cached"
+          command: |
+            cd /app/
+            tar -cf deps.tar deps
+            mv deps.tar /caches/
+
+      - run:
+          name: "Compress and move deps to be cached"
+          command: |
+            cd /app/
+            tar -cf mix.tar .mix
+            mv mix.tar /caches/
+
+      - run:
+          name: "Compress and move deps to be cached"
+          command: |
+            cd /app/
+            tar -cf cache.tar .cache
+            mv cache.tar /caches/
+
+      # # Save cache on /cache/app-docker-image.tar
+      - save_cache:
+          name: Save _build cache
+          key: v4-cache-build-{{ checksum "mix.lock" }}
+          paths:
+            - /caches/_build.tar
+            - /caches/deps.tar
+            - /caches/mix.tar
+            - /caches/cache.tar
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_base_image
+      - test:
+          requires:
+            - build_base_image

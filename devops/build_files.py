@@ -7,7 +7,6 @@ from os.path import basename, dirname, realpath, join, abspath
 
 __LOCAL__ = 'local'
 __CI__ = 'ci'
-__PRODUCTION__ = 'production'
 
 PAINT_RED='\033[00;31m'
 PAINT_GREEN='\033[01;32m'
@@ -30,7 +29,6 @@ Path to folder containing base (template) files to be generated
 BASE_FILES_PATH = devops_directory('base_files')
 DOCKER_COMPOSE_BASE_FILE = join(BASE_FILES_PATH, 'docker-compose.base')
 DOCKERFILE_BASE_FILE = join(BASE_FILES_PATH, 'Dockerfile.base')
-DOCKERFILE_PRODUCTION_BASE_FILE = join(BASE_FILES_PATH, 'Dockerfile.production.base')
 VERSION_FILE = join(DEVOPS_FOLDER_PATH, 'version.txt')
 
 """
@@ -39,13 +37,11 @@ based on the the environment name
 """
 DEVOPS_LOCAL_PATH = devops_directory(__LOCAL__)
 DEVOPS_CI_PATH = devops_directory(__CI__)
-DEVOPS_PRODUCTION_PATH = devops_directory(__PRODUCTION__)
 
 """
 Path to files containing environment variable in the following format
 export VAR_NAME=VAR_VALUE
 """
-PROD_ENV_VARIABLES = join(PROJECT_ROOT_PATH, 'env', 'production.sh')
 LOCAL_ENV_VARIABLES = join(PROJECT_ROOT_PATH, 'env', 'local.sh')
 CI_ENV_VARIABLES = join(PROJECT_ROOT_PATH, 'env', 'ci.sh')
 
@@ -59,7 +55,6 @@ def main():
     print(LINE_BREAK)
     generate_files_local_env()
     generate_files_ci_env()
-    generate_files_production_env()
     print(LINE_BREAK)
 
 def generate_files_local_env():
@@ -72,19 +67,12 @@ def generate_files_ci_env():
 
     generate_dockerfile(__CI__)
 
-def generate_files_production_env():
-
-    generate_environment_variables_file(__PRODUCTION__)
-    generate_dockerfile(__PRODUCTION__)
-
 def generate_environment_variables_file(env):
 
     fp_new_file = create_file(env, FILENAME_DOCKER_ENV_VAR)
 
     if os.getenv('CI', None) is not None:
         variables_file = CI_ENV_VARIABLES
-    elif env == __PRODUCTION__:
-        variables_file = PROD_ENV_VARIABLES
     else:
         variables_file = LOCAL_ENV_VARIABLES
 
@@ -136,12 +124,7 @@ def generate_dockerfile(env):
 
     fp_new_file = create_file(env, FILENAME_DOCKERFILE)
 
-    if env == __PRODUCTION__:
-        destination = DEVOPS_PRODUCTION_PATH
-        dockerfile = DOCKERFILE_PRODUCTION_BASE_FILE
-        variables_file = join(destination, FILENAME_DOCKER_ENV_VAR)
-
-    elif env == __CI__:
+    if env == __CI__:
         destination = DEVOPS_CI_PATH
         dockerfile = DOCKERFILE_BASE_FILE
         variables_file = join(DEVOPS_LOCAL_PATH, FILENAME_DOCKER_ENV_VAR)
@@ -176,10 +159,6 @@ def generate_dockerfile(env):
     fp_new_file.close()
     print(build_file_generation_message(env, FILENAME_DOCKERFILE))
 
-    #Remove variables file since it's not necessary in production envs
-    if env == __PRODUCTION__:
-        os.remove(variables_file)
-
 def get_version():
     with open(VERSION_FILE, 'r') as file:
         first_line = file.readline()
@@ -199,10 +178,7 @@ def create_file(env, filename):
     """
     Create and return new file based on destination and filename
     """
-    if env == __PRODUCTION__:
-        destination = DEVOPS_PRODUCTION_PATH
-
-    elif env == __CI__:
+    if env == __CI__:
         destination = DEVOPS_CI_PATH
 
     else:
