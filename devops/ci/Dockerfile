@@ -17,8 +17,7 @@ ENV SYSTEM_DEFAULT_EMAIL=xpto@useniq.com
 
 RUN apk update
 RUN apk --update upgrade
-RUN apk add --update build-base bash curl py-pip jq openssh-client
-RUN pip install awscli
+RUN apk add --update build-base bash curl
 
 RUN /usr/local/bin/mix local.hex --force && \
     /usr/local/bin/mix local.rebar --force

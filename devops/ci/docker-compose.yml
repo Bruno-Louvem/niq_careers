@@ -1,0 +1,35 @@
+version: "3"
+services:
+  postgres_niq_careers:
+    image: postgres:9.6.2
+    environment:
+      - POSTGRES_USER=niq_user
+      - POSTGRES_DB=niq_db
+      - POSTGRESQL_PASSWORD=niq_pass
+    ports:
+      - "5432:5432"
+    logging:
+      driver: syslog
+
+  erlang_niq_careers:
+    image: app-docker-image:latest
+    environment:
+      - DB_PORT=5432
+      - DATABASE_URL=postgres://niq_user:niq_pass@postgres_niq_careers/niq_db
+      - MIX_ENV=local
+    working_dir: /opt/app
+    entrypoint: /bin/sh
+    ports:
+      - "4000:4000"
+    links:
+      - postgres_niq_careers
+      - s3_niq_careers
+    logging:
+      driver: syslog
+    stdin_open: true
+    tty: true
+
+  s3_niq_careers:
+    image: pickapp/fake-s3-alpine:0.2.5
+    ports:
+      - "10001:10001"
