@@ -2,11 +2,11 @@ defmodule Careers.Application do
     use Application
     require Logger
 
-    def start (_type,_args) do
+    def start(_type,_args) do
         import Supervisor.Spec, warn: false
 
         children = [
-            supervisor(Careers.Repo,[]),
+            supervisor(Careers.Repo, [])
         ]
 
         Logger.info "Started Aplication"
