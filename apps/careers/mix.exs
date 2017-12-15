@@ -13,14 +13,15 @@ defmodule Careers.Mixfile do
       lockfile: "../../mix.lock",
       test_coverage: [tool: ExCoveralls],
       elixirc_paths: elixirc_paths(Mix.env),
-      deps: deps()
-    ]
+      deps: deps(),
+      aliases: aliases()]
     end
 
     # Run "mix help compile.app" to learn about applications.
     def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger,:postgrex,:ecto],
+      mod: {Careers.Application,[]}
     ]
     end
 
@@ -38,5 +39,14 @@ defmodule Careers.Mixfile do
     end
 
     defp non_production, do: [:local, :test]
+
+    defp aliases do
+
+      [
+        "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+        "ecto.reset": ["ecto.drop", "ecto.setup"],
+        "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      ]
+    end
 
 end

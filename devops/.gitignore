@@ -4,3 +4,5 @@ Dockerfile
 !/ci
 !/ci/*
 !/ci/docker-compose.yml
+os
+socket
