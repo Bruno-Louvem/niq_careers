@@ -35,6 +35,7 @@ defmodule Careers.Mixfile do
             {:faker_elixir_octopus, "~> 1.0.0",  only: non_production()},
             {:postgrex, ">= 0.0.0"},
             {:ecto, "~> 2.1"}
+
         ]
     end
 

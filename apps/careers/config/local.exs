@@ -5,4 +5,4 @@ config :careers, Careers.Repo,
     url: System.get_env("DATABASE_URL"),
     pool: Ecto.Adapters.SQL.Sandbox
 
-config :logger, level: :info
+config :logger, level: :warn
