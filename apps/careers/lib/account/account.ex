@@ -1,5 +1,7 @@
 defmodule Careers.Account do
   use Careers.Domain
+  
+  alias Careers.Data.Model.Account, as: Model
 
       @spec create(String.t, String.t) :: {String.t, String.t}
 
