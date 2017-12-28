@@ -1,13 +1,13 @@
 defmodule Careers.Test.Support.Factory do
     @moduledoc false
-    alias FakerELixir, as: Faker
+    #alias FakerELixir, as: Faker
     alias Careers.Repo
     alias Careers.Data.Schema.Account
 
     def account(context) do
       changes = %{
-        user: Faker.Name.name(),
-        password: Faker.Internet.password(:strong)
+        username: FakerElixir.Name.name(),
+        password: FakerElixir.Internet.password(:strong)
       }
 
       {:ok, account} =

@@ -4,10 +4,8 @@ defmodule Careers.Schema do
     quote do
       use Ecto.Schema
       import Ecto.Changeset
+      import Careers.Data.Support.Error
 
     end
   end
-
-
-
 end
