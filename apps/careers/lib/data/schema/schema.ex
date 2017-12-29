@@ -5,6 +5,10 @@ defmodule Careers.Schema do
       use Ecto.Schema
       import Ecto.Changeset
 
+      alias Careers.Data.Schema.{
+        Profile,
+        Account
+        }
     end
   end
 
