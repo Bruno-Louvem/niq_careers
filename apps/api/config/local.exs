@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :api, ApiWeb.Endpoint,
+config :api, Api.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: false,
@@ -31,7 +31,7 @@ config :api, ApiWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :api, ApiWeb.Endpoint,
+config :api, Api.Endpoint,
   live_reload: [
     patterns: [
       ~r{lib/api_web/views/.*(ex)$},

@@ -16,7 +16,7 @@ defmodule NiQCareers.Mixfile do
     [
      {:excoveralls, "~> 0.6", only: [:local, :test]},
      {:credo, "~> 0.7", only: [:local, :test]},
-     {:distillery, "~> 1.4"},
+     {:distillery, "~> 1.4"}
    ]
   end
 

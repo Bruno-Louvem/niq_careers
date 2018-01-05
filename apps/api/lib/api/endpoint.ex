@@ -1,15 +1,10 @@
-defmodule ApiWeb.Endpoint do
+defmodule Api.Endpoint do
   use Phoenix.Endpoint, otp_app: :api
-
-  socket "/socket", ApiWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
-  plug Plug.Static,
-    at: "/", from: :api, gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -38,7 +33,7 @@ defmodule ApiWeb.Endpoint do
     key: "_api_key",
     signing_salt: "LYexqiYN"
 
-  plug ApiWeb.Router
+  plug Api.Router
 
   @doc """
   Callback invoked for dynamically configuring the endpoint.

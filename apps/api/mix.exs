@@ -39,15 +39,15 @@ defmodule Api.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:faker_elixir_octopus, "~> 1.0.0"},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :local},
-      {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:careers, "~> 0.1.0", in_umbrella: true}
+      {:careers, "~> 0.1.0", in_umbrella: true},
+      {:params, "~> 2.0"}
     ]
   end
 
