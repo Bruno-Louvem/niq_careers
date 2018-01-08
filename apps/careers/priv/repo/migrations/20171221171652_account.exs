@@ -1,13 +1,13 @@
 defmodule Careers.Repo.Migrations.Account do
   use Ecto.Migration
 
-  def change do
+    def change do
 
-    create table("accounts") do
-      add :username, :string
-      add :password, :string
-      timestamps()
-  end
+      create table("accounts") do
+        add :username, :string
+        add :password, :string
+        timestamps()
+      end
 
-  end
+    end
 end

@@ -1,24 +1,32 @@
-defmodule Careers.Data.Model.Account do
-  use Careers.Model
-  alias Careers.Data.Schema.Account, as: Schema
+defmodule Careers.Data.Model.Profile do
+    use Careers.Model
 
-    def create(user, password) do
+    alias Careers.Data.Schema.Profile, as: Schema
+    alias Careers.Data.Schema.Account
+
+    def create(account_id, email, phone, birth_date) do
       do_create(Schema, %{
-        username: user,
-        password: password
+        accounts_id: account_id,
+        email: email,
+        phone: phone,
+        birth_date: birth_date
         }, Repo)
       end
 
-      def update(account_id, password) when is_map(password) do
+      def update(profile_id, changes) when is_map(changes) do
         Schema
-        |> Repo.get(account_id)
-        |> Schema.changeset(password, :update)
+        |> Repo.get(profile_id)
+        |> Schema.changeset(changes, :update)
         |> __commit_if_valid(:update, Repo)
       end
 
-      def get(account_id) do
+      def get(profile_id) do
 
-        Repo.get(Schema, account_id)
+        profile = Repo.get(Schema, profile_id)
+        case profile do
+          nil -> {:error}
+          _ -> profile
+        end
 
       end
 
@@ -40,5 +48,4 @@ defmodule Careers.Data.Model.Account do
             {:error, changeset.errors}
           end
         end
-
-    end
+end

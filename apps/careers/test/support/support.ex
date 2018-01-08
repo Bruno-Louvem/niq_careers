@@ -13,7 +13,8 @@ defmodule Careers.Test.Support do
             alias Careers.Repo
             alias Careers.{
                 Exams,
-                Account}
+                Account,
+                Profile}
         end
     end
 end

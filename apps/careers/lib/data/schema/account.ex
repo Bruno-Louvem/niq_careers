@@ -1,36 +1,37 @@
 defmodule Careers.Data.Schema.Account do
   use Careers.Schema
+  alias Careers.Data.Schema.Profile, as: Profile
 
-  schema "accounts" do
-    #has_one profile_id , Profile, foreign_key: :account_id
+    schema "accounts" do
+      has_one :profiles, Profile, foreign_key: :accounts_id
 
-    field :username, :string
-    field :password, :string
-    timestamps()
-  end
+      field :username, :string
+      field :password, :string
+      timestamps()
+    end
 
 
-  @create_fields [:username, :password]
-  @update_fields [:password]
+    @create_fields [:username, :password]
+    @update_fields [:password]
 
-  def create_fields, do: @create_fields
-  def update_fields, do: @update_fields
+    def create_fields, do: @create_fields
+    def update_fields, do: @update_fields
 
-  def changeset(instance, params, operation \\ :create)
+    def changeset(instance, params, operation \\ :create)
 
-  def changeset(instance, params, :create) do
+    def changeset(instance, params, :create) do
       do_changeset(instance, params, @create_fields)
-  end
+    end
 
-  def changeset(instance, params, :update) do
+    def changeset(instance, params, :update) do
       do_changeset(instance, params, @update_fields)
-  end
+    end
 
-  defp do_changeset(instance, params, fields) do
-    instance
-    |> cast(params, fields)
-    |> validate_required(fields)
-    |> validate_length(:password, min: 6)
-    |> validate_length(:username, min: 3)
-  end
+    defp do_changeset(instance, params, fields) do
+      instance
+      |> cast(params, fields)
+      |> validate_required(fields)
+      |> validate_length(:password, min: 6)
+      |> validate_length(:username, min: 3)
+    end
 end
