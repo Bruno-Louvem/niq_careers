@@ -46,6 +46,8 @@ defmodule Careers.Test.Data.Domain.Profile do
     end
 
 
+
+
     test "Do: update profile", context do
       {:ok, profile} = Profile.create(
               context.account.id,
@@ -102,20 +104,15 @@ defmodule Careers.Test.Data.Domain.Profile do
       assert profile == Profile.get(profile.id)
       assert email == Profile.get(profile.id, :email)
       assert phone == Profile.get(profile.id, :phone)
-      assert accounts_id == Profile.get(profile.id, :accounts_id)
+      assert accounts_id == Profile.get(profile.id, :account_id)
       assert birth_date == Profile.get(profile.id, :birth_date)
 
 
 
     end
 
-    test "Do not: get 0profile. Why? invalid profile id", context do
-      {:ok, profile} = Profile.create(
-              context.account.id,
-              Faker.Internet.email,
-              Faker.Phone.cell,
-              Faker.Date.birthday)
-      assert profile == Profile.get(profile.id, :all)
+    test "Do not: get profile. Why? invalid profile id", context do
+
       assert {:error} == Profile.get(Faker.Number.digits(4), :all)
 
     end

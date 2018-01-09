@@ -33,10 +33,11 @@ defmodule Careers.Test.Data.Model.Account do
 
     test "Do: get account" do
       {:ok, account} = Account.create(
-      Faker.Name.name(),
-      Faker.Internet.password(:strong))
-      get_account = Account.get(account.id)
-      assert account == get_account
+         Faker.Name.name(),
+         Faker.Internet.password(:strong))
+
+       get_account = Account.get(account.id)
+       assert account.id == get_account.id
     end
 
 end

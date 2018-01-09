@@ -6,7 +6,7 @@ defmodule Careers.Data.Model.Profile do
 
     def create(account_id, email, phone, birth_date) do
       do_create(Schema, %{
-        accounts_id: account_id,
+        account_id: account_id,
         email: email,
         phone: phone,
         birth_date: birth_date

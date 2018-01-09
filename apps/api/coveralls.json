@@ -18,6 +18,13 @@
         "lib/api.ex",
         "lib/api/application.ex",
         "lib/api/endpoint.ex",
-        "lib/api/views/error_helpers.ex"
+        "lib/api/views/error_helpers.ex",
+        "lib/api/helpers.ex",
+        "lib/api/controllers/api_controller.ex",
+        "lib/api/controllers/page_controller.ex",
+        "lib/api/error.ex",
+        "lib/api/helpers.ex",
+        "lib/api/views/api_view.ex",
+        
     ]
 }

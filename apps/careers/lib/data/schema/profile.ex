@@ -3,7 +3,7 @@ defmodule Careers.Data.Schema.Profile do
     alias Careers.Data.Schema.Account
 
       schema "profiles" do
-        belongs_to :accounts, Account
+        belongs_to :account, Account
 
         #has_many :profile_jobs, ProfileJob
 
@@ -15,7 +15,7 @@ defmodule Careers.Data.Schema.Profile do
 
       end
 
-      @create_fields [:accounts_id, :email, :phone, :birth_date]
+      @create_fields [:account_id, :email, :phone, :birth_date]
       @update_fields [:email, :phone, :birth_date]
 
       def create_fields, do: @create_fields
@@ -34,7 +34,7 @@ defmodule Careers.Data.Schema.Profile do
         |> cast(params, fields)
         |> validate_required(fields)
         |> validate_format(:email, ~r/@/)
-        |> unique_constraint(:email, [message: err(:duplicated_email)])
+        |> unique_constraint(:email, [message: "e-mail already in database"])
         |> foreign_key_constraint(:account_id)
       end
 end

@@ -12,7 +12,7 @@ defmodule Api.AccountController do
   def create_account(conn, params) do
       case do_create_account(params) do
           {:ok, payload} ->
-              render(conn, "create_account.json", payload: payload)
+              render(conn, "create_account.json", payload: payload.id)
           {:error, message, code} ->
               conn
               |> put_status(code)

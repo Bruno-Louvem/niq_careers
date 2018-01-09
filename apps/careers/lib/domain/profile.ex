@@ -31,7 +31,7 @@ defmodule Careers.Profile do
       profile = Model.get(profile_id)
 
       case profile do
-        nil -> {:error}
+        {:error} -> {:error}
         _ -> {:ok, profile}
       end
 
@@ -39,7 +39,7 @@ defmodule Careers.Profile do
         :all -> Model.get(profile_id)
         :email -> profile.email
         :phone -> profile.phone
-        :accounts_id -> profile.accounts_id
+        :account_id -> profile.account_id
         :birth_date -> profile.birth_date
       end
 
