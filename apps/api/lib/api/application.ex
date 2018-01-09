@@ -10,7 +10,7 @@ defmodule Api.Application do
     children = [
       # Start the Ecto repository
       # Start the endpoint when the application starts
-      supervisor(ApiWeb.Endpoint, []),
+      supervisor(Api.Endpoint, []),
       # Start your own worker by calling: Api.Worker.start_link(arg1, arg2, arg3)
       # worker(Api.Worker, [arg1, arg2, arg3]),
     ]
@@ -24,7 +24,7 @@ defmodule Api.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    ApiWeb.Endpoint.config_change(changed, removed)
+    Api.Endpoint.config_change(changed, removed)
     :ok
   end
 end

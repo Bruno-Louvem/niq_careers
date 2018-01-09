@@ -12,15 +12,18 @@ defmodule Careers.Test.Data.Model.Account do
     test "Do: create account" do
       assert {:ok, _} = Account.create(
           Faker.Name.name(),
-          Faker.Internet.password(:strong)
-          )
+          Faker.Internet.password(:strong))
+    end
+
+    test "Do not: create account Why? Missing required fields" do
+      assert {:error, _} = Account.create(
+          Faker.Name.name(), nil)
     end
 
     test "Do: update account" do
       {:ok, account} = Account.create(
           Faker.Name.name(),
-          Faker.Internet.password(:strong)
-          )
+          Faker.Internet.password(:strong))
       new_password = Faker.Internet.password(:strong)
 
       assert {:ok, updated_account} = Account.update(account.id,
@@ -31,8 +34,7 @@ defmodule Careers.Test.Data.Model.Account do
     test "Do: get account" do
       {:ok, account} = Account.create(
       Faker.Name.name(),
-      Faker.Internet.password(:strong)
-      )
+      Faker.Internet.password(:strong))
       get_account = Account.get(account.id)
       assert account == get_account
     end

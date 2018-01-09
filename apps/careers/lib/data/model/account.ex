@@ -3,10 +3,8 @@ defmodule Careers.Data.Model.Account do
   alias Careers.Data.Schema.Account, as: Schema
 
     def create(user, password) do
-      do_create(Schema, %{
-        username: user,
-        password: password
-        }, Repo)
+      fields = %{username: user, password: password}
+      do_create(Schema, fields, Repo)
       end
 
       def update(account_id, password) when is_map(password) do
@@ -18,12 +16,13 @@ defmodule Careers.Data.Model.Account do
 
       def get(account_id) do
 
-        Repo.get(Schema, account_id)
+        Repo.get(Schema, account_id) |> Repo.preload(:profiles)
 
       end
 
       defp do_create(schema, query_fields, repo) when is_map(query_fields) do
         schema.__struct__
+        |> Repo.preload([:profiles])
         |> schema.changeset(query_fields, :create)
         |> __commit_if_valid(:create, repo)
       end

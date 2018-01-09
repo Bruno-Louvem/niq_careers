@@ -15,7 +15,7 @@ defmodule Careers.Account do
         account = Model.get(account_id)
 
         case account do
-            nil -> {:error}
+            nil -> {:error, "Invalid account id"}
             _ -> {:ok, account}
         end
       end

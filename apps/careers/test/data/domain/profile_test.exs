@@ -20,10 +20,10 @@ defmodule Careers.Test.Data.Domain.Profile do
     test "Do not: create profile. Why? blanked required field", context do
 
         assert {:error, _} = Profile.create(
-                context.account.id,
-                Faker.Internet.email,
-                Faker.Phone.cell,
-                nil)
+              context.account.id,
+              Faker.Internet.email,
+              Faker.Phone.cell,
+              nil)
 
         assert {:error, _} = Profile.create(
               context.account.id,
