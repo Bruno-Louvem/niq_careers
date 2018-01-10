@@ -3,7 +3,7 @@ defmodule Careers.Data.Schema.Account do
   alias Careers.Data.Schema.Profile, as: Profile
 
     schema "accounts" do
-      has_one :profiles, Profile, foreign_key: :accounts_id
+      has_one :profiles, Profile
 
       field :username, :string
       field :password, :string

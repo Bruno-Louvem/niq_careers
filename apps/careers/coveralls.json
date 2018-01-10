@@ -15,8 +15,9 @@
     "skip_files": [
         "mix",
         "test/support",
-        "lib/profile.ex",
+        "lib/data/support/error.exs",
         "lib/profile/repo.ex",
         "lib/profile/error.ex",
+        "lib/data/support/error.ex",
     ]
 }

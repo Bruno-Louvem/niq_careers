@@ -11,7 +11,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do: Create profile with required fields", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: Faker.Date.birthday
@@ -21,7 +21,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do not: create profile. Why? email field missing", context do
         changeset = Profile.changeset(%Profile{},%{
-          accounts_id: context.account.id,
+          account_id: context.account.id,
           phone: Faker.Phone.cell,
           birth_date: FakerElixir.Date.birthday
         })
@@ -31,7 +31,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do not: Create profile. Why? email field invalid", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Lorem.characters,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -41,7 +41,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do not: create profile. Why? phone field missing", context do
         changeset = Profile.changeset(%Profile{},%{
-          accounts_id: context.account.id,
+          account_id: context.account.id,
           email: Faker.Internet.email,
           birth_date: FakerElixir.Date.birthday
         })
@@ -51,7 +51,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do not: create profile. Why? birth_date field missing", context do
         changeset = Profile.changeset(%Profile{},%{
-          accounts_id: context.account.id,
+          account_id: context.account.id,
           email: Faker.Internet.email,
           phone: Faker.Phone.cell,
         })
@@ -59,7 +59,7 @@ defmodule Careers.Test.Data.Schema.Profile do
     refute changeset.valid?
     end
 
-    test "Do not: create profile. Why? accounts_id field missing" do
+    test "Do not: create profile. Why? account_id field missing" do
         changeset = Profile.changeset(%Profile{},%{
           email: Faker.Internet.email,
           phone: Faker.Phone.cell,
@@ -71,7 +71,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do not: create profile. Why? email already in database", context do
       changeset_1 = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: "uiuiu@uhjuhu.com" ,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -79,7 +79,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
       Repo.insert(changeset_1)
       changeset_2 = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: "uiuiu@uhjuhu.com",
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -88,9 +88,9 @@ defmodule Careers.Test.Data.Schema.Profile do
     assert {:error,_} = Repo.insert(changeset_2)
     end
 
-    test "Do not: create profile. Why? accounts_id already in database", context do
+    test "Do not: create profile. Why? account_id already in database", context do
       changeset_1 = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -99,7 +99,7 @@ defmodule Careers.Test.Data.Schema.Profile do
       {:ok, profile} = Repo.insert(changeset_1)
 
       changeset_2 = Profile.changeset(%Profile{},%{
-        accounts_id: profile.id,
+        account_id: profile.id,
         email: Faker.Internet.email,
         phone: nil,
         birth_date: FakerElixir.Date.birthday
@@ -110,7 +110,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do: update profile's email", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -126,7 +126,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do: update profile's phone", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -143,7 +143,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do: update profile's birth_date", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday
@@ -160,7 +160,7 @@ defmodule Careers.Test.Data.Schema.Profile do
 
     test "Do: update all updatable fields", context do
       changeset = Profile.changeset(%Profile{},%{
-        accounts_id: context.account.id,
+        account_id: context.account.id,
         email: Faker.Internet.email,
         phone: Faker.Phone.cell,
         birth_date: FakerElixir.Date.birthday

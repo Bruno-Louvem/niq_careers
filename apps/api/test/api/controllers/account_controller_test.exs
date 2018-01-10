@@ -1,4 +1,4 @@
-defmodule Api.AccountControllerTest do
+defmodule Api.Test.AccountControllerTest do
 
     use Api.ConnCase
 
@@ -30,11 +30,10 @@ defmodule Api.AccountControllerTest do
         conn = get(conn, path)
         assert account_id = json_response(conn, 200)
         |> Map.get("accounts_key")
-        |> Map.get("id")
         assert account_id == account.id
       end
 
-    test "Do not: get account. Why? id not valid", %{conn: conn} do
+    test "Do not: get account. Why? no account with id", %{conn: conn} do
         path = account_path(conn, :get_account, Faker.Number.digits)
         conn = get(conn, path)
         assert json_response(conn, 500) |> Map.has_key?("error")

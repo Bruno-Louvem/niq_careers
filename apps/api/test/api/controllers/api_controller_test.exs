@@ -1,4 +1,4 @@
-defmodule Api.ApiControllerTest do
+defmodule Api.Test.ApiControllerTest do
   use Api.ConnCase
 
 end

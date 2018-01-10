@@ -3,7 +3,7 @@ defmodule Careers.Repo.Migrations.Profile do
 
     def change do
       create table ("profiles") do
-        add :accounts_id, references(:accounts), null: false
+        add :account_id, references(:accounts), null: false
         add :email, :string
         add :phone, :string
         add :birth_date, :string
@@ -11,6 +11,6 @@ defmodule Careers.Repo.Migrations.Profile do
         timestamps type: :utc_datetime
       end
       create unique_index(:profiles, [:email])
-      create unique_index(:profiles, [:accounts_id])
+      create unique_index(:profiles, [:account_id])
     end
 end
