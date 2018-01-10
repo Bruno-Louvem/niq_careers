@@ -29,7 +29,7 @@ defmodule Api.Test.AccountControllerTest do
         path = account_path(conn, :get_account, account.id)
         conn = get(conn, path)
         assert account_id = json_response(conn, 200)
-        |> Map.get("accounts_key")
+        |> Map.get("accounts_id")
         assert account_id == account.id
       end
 

@@ -6,7 +6,7 @@ defmodule Careers.Repo.Migrations.Account do
       create table("accounts") do
         add :username, :string
         add :password, :string
-        timestamps()
+        timestamps type: :utc_datetime
       end
 
     end

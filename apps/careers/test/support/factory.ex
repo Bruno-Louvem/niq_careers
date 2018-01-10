@@ -3,6 +3,7 @@ defmodule Careers.Test.Support.Factory do
     #alias FakerELixir, as: Faker
     alias Careers.Repo
     alias Careers.Data.Schema.Account
+    alias Careers.Data.Schema.Profile
 
     def account(context) do
       changes = %{
@@ -18,4 +19,18 @@ defmodule Careers.Test.Support.Factory do
       [account: account]
     end
 
+    def profile(context) do
+        changes = %{
+            account_id: context.account.id,
+            email: FakerElixir.Internet.email,
+            phone: FakerElixir.Phone.cell,
+            birth_date: FakerElixir.Date.birthday}
+
+        {:ok, profile} =
+            %Profile{}
+            |> Profile.changeset(changes)
+            |> Repo.insert
+
+        [profile: profile]
+    end
 end
