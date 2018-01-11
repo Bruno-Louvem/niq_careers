@@ -36,10 +36,7 @@ defmodule Careers.Test.Data.Domain.Account do
     end
 
     test "Do not: get account Why? Invalid id" do
-      {:ok, account} = Account.create(
-          Faker.Name.name(),
-          Faker.Internet.password(:strong)
-          )
+
       get_account = Account.get(Faker.Number.digits)
       assert {:error, "Invalid account id"} == get_account
     end

@@ -111,7 +111,7 @@ defmodule Careers.Test.Data.Domain.Profile do
 
     end
 
-    test "Do not: get profile. Why? invalid profile id", context do
+    test "Do not: get profile. Why? invalid profile id" do
 
       assert {:error} == Profile.get(Faker.Number.digits(4), :all)
 

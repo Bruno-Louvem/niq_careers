@@ -1,10 +1,13 @@
 defmodule Careers.Data.Schema.Profile do
     use Careers.Schema
+
     alias Careers.Data.Schema.Account
+    alias Careers.Data.Schema.Nickname
 
       schema "profiles" do
         belongs_to :account, Account
 
+        has_many :nickname, Nickname
         #has_many :profile_jobs, ProfileJob
 
         field :email, :string
