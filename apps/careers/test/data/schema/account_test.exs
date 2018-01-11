@@ -25,6 +25,23 @@ defmodule Careers.Test.Data.Schema.Account do
 
           assert {:error, _} = Repo.insert(changeset)
     end
+
+    test "Do not: Create account. Why? Username already taken" do
+          user = Faker.Name.name
+          changeset = Account.changeset(%Account{},
+                      %{username: user,
+                      password: Faker.Internet.password(:strong)})
+
+          assert {:ok, _} = Repo.insert(changeset)
+
+          changeset_1 = Account.changeset(%Account{},
+                      %{username: user,
+                      password: Faker.Internet.password(:strong)})
+
+          assert {:error, _} = Repo.insert(changeset_1)
+
+    end
+
     test "Do not: Create account. Why? Password is too short" do
           changeset = Account.changeset(%Account{},
                       %{username: Faker.Name.name(),
