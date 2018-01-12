@@ -9,7 +9,7 @@ defmodule Api.Test.AccountControllerTest do
                   password: Faker.Internet.password(:strong)}
         path = account_path(conn, :create_account, acc_map)
         conn = post(conn, path)
-        assert json_response(conn, 200) |> Map.has_key?("accounts_key")
+        assert json_response(conn, 200) |> Map.has_key?("accounts_id")
     end
 
 
@@ -40,9 +40,24 @@ defmodule Api.Test.AccountControllerTest do
     end
 
     test "Do not: get account. Why? id is not a number", %{conn: conn} do
-        path = account_path(conn, :get_account, Faker.Lorem.characters)
+        path = account_path(conn, :get_account, Faker.Helper.letterify("###"))
         conn = get(conn, path)
         assert json_response(conn, 500) |> Map.has_key?("error")
     end
+
+    test "Do: update accounts password", %{conn: conn} do
+        pass = Faker.Internet.password(:strong)
+        {:ok, account} = Account.create(
+          Faker.Name.name(),
+          Faker.Internet.password(:strong))
+        acc_map = %{id: account.id, password: pass}
+
+        path = account_path(conn, :update_account, acc_map)
+        conn = post(conn, path)
+        assert new_password = json_response(conn, 200)
+        |> Map.get("password")
+        assert pass == new_password
+    end
+
 
 end

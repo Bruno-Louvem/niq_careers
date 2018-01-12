@@ -6,7 +6,7 @@ defmodule Api.ErrorView do
   end
 
   def render("500.json", _assigns) do
-    handle_error("Internal server error")
+    handle_error("Invalid Request")
   end
 
   # In case no render clause matches or no

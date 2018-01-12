@@ -5,6 +5,7 @@ defmodule Api.Validators.Profile do
         accounts_id!: :string,
         email!: :string,
         phone!: :string,
-        birth_date!: :string}
+        birth_date!: :string,
+        nickname: :string}
 
 end

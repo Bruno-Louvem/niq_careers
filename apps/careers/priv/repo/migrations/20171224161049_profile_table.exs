@@ -4,6 +4,7 @@ defmodule Careers.Repo.Migrations.Profile do
     def change do
       create table ("profiles") do
         add :account_id, references(:accounts), null: false
+        #add :nickname, references(:nickname), virtual: true
         add :email, :string
         add :phone, :string
         add :birth_date, :string

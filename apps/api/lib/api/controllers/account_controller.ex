@@ -33,6 +33,11 @@ defmodule Api.AccountController do
       end
   end
 
+  def update_account(conn, %{"id" => accounts_id, "password" => password}) do
+      {:ok, account} = Account.update(accounts_id, %{password: password})
+      render(conn, "updated_account.json", account: account)
+  end
+
   def get_account(conn, %{"id" => accounts_id}) do
     acc_id = do_get_account(accounts_id)
     case acc_id do

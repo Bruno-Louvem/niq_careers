@@ -14,12 +14,13 @@ defmodule Careers.Test.Data.Schema.Nickname do
     test "Do: create nickname", context do
         changeset = Nickname.changeset(%Nickname{}, %{
             profile_id: context.profile.id,
-            nickname: Faker.Name.name})
+            nickname: Faker.Name.name,
+            is_active: true})
 
         assert {:ok, _} = Repo.insert(changeset)
     end
 
-    test "Do not: create nickname Why? required fields missing", context do
+    test "Do not: create nickname Why? required fields missing" do
         changeset = Nickname.changeset(%Nickname{}, %{
             nickname: Faker.Name.name})
 
@@ -29,7 +30,8 @@ defmodule Careers.Test.Data.Schema.Nickname do
     test "Do: update active nickname", %{profile: profile} do
         changeset = Nickname.changeset(%Nickname{}, %{
             profile_id: profile.id,
-            nickname: Faker.Name.name})
+            nickname: Faker.Name.name,
+            is_active: false})
 
         assert {:ok, nickname} = Repo.insert(changeset)
 
@@ -41,13 +43,12 @@ defmodule Careers.Test.Data.Schema.Nickname do
     test "Do not: update active nickname", %{profile: profile} do
         changeset = Nickname.changeset(%Nickname{}, %{
             profile_id: profile.id,
-            nickname: Faker.Name.name})
+            nickname: Faker.Name.name,
+            is_active: true})
 
         assert {:ok, nickname} = Repo.insert(changeset)
 
-        changeset_1 = Nickname.changeset(nickname, %{}, :update)
+        changeset_1 = Nickname.changeset(nickname, %{is_active: nil}, :update)
         refute changeset_1.valid?
     end
-
-
 end
