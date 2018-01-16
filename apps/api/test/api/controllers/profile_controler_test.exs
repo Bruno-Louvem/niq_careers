@@ -122,4 +122,56 @@ defmodule Api.Test.ProfileControllerTest do
         assert json_response(conn, 200) |> Map.has_key?("nicknames")
 
     end
+
+    test "Do: update profile's phone field and the others", %{conn: conn, account: account} do
+        phone = Faker.Phone.cell
+
+        {:ok, profile} = Profile.create(account.id,
+                    Faker.Internet.email,
+                    Faker.Phone.cell,
+                    Faker.Date.birthday,
+                    Faker.Lorem.characters)
+        map = %{id: profile.id,
+                email: nil,
+                phone: phone,
+                birth_date: nil}
+
+        path = profile_path(conn, :update_profile, map)
+        conn = post(conn, path)
+        assert new_phone = json_response(conn, 200) |> Map.get("profile_phone")
+        assert new_phone == phone
+    end
+    test "Do: update profile's with only phone and id", %{conn: conn, account: account} do
+        phone = Faker.Phone.cell
+
+        {:ok, profile} = Profile.create(account.id,
+                    Faker.Internet.email,
+                    Faker.Phone.cell,
+                    Faker.Date.birthday,
+                    Faker.Lorem.characters)
+        map = %{id: profile.id,
+                phone: phone}
+
+        path = profile_path(conn, :update_profile, map)
+        conn = post(conn, path)
+        assert new_phone = json_response(conn, 200) |> Map.get("profile_phone")
+        assert new_phone == phone
+    end
+
+    test "Do: update profile's with only email and id", %{conn: conn, account: account} do
+        email = Faker.Internet.email
+
+        {:ok, profile} = Profile.create(account.id,
+                    Faker.Internet.email,
+                    Faker.Phone.cell,
+                    Faker.Date.birthday,
+                    Faker.Lorem.characters)
+        map = %{id: profile.id,
+                email: email}
+
+        path = profile_path(conn, :update_profile, map)
+        conn = post(conn, path)
+        assert new_email = json_response(conn, 200) |> Map.get("profile_email")
+        assert new_email == email
+    end
 end
