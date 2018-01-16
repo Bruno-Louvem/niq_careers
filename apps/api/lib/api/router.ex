@@ -12,11 +12,19 @@ defmodule Api.Router do
 
     get "/accounts/:id", AccountController, :get_account
 
-    post "/accounts/create", AccountController, :create_account
+    post "/accounts/update", AccountController, :update_account
+
+    post "/accounts", AccountController, :create_account
 
     get "/profiles/:id", ProfileController, :get_profile
 
-    post "/profiles/create", ProfileController, :create_profile
+    post "/profiles/update", ProfileController, :update_profile
+
+    post "/profiles", ProfileController, :create_profile
+
+    get "/profiles/nickname/:id", ProfileController, :get_nickname
+
+    post "/profiles/nickname/update", ProfileController, :update_nickname
   end
 
   # Other scopes may use custom stacks.

@@ -11,7 +11,7 @@ defmodule Careers.Data.Schema.Nickname do
         timestamps()
     end
 
-    @create_fields [:profile_id, :nickname]
+    @create_fields [:profile_id, :nickname, :is_active]
     @update_fields [:is_active]
 
     def create_fields, do: @create_fields

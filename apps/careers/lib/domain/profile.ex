@@ -2,35 +2,28 @@ defmodule Careers.Profile do
   use Careers.Domain
   alias Careers.Data.Model.Profile, as: Model
 
-  @spec create(String.t, String.t, String.t, String.t) :: {Atom, Map}
+  @spec create(String.t, String.t, String.t, String.t, String.t) :: {Atom, Map}
 
-    def create(profile_id, email, phone, birth_date) do
-      case profile_id do
-        nil -> {:error}
-        _ -> {:ok, profile_id}
+    def create(account_id, email, phone, birth_date, nickname) do
+        list = [account_id, email, phone, birth_date, nickname]
+      verify =
+      case Enum.member?(list, nil) do
+          true -> nil
+          false -> :ok
       end
-      case email do
-        nil -> {:error}
-        _ -> {:ok, email}
+      case verify do
+        nil -> {:error, "Blanked fields"}
+        :ok ->
+        Model.create(account_id, email, phone, birth_date, nickname)
       end
-      case phone do
-        nil -> {:error}
-        _ -> {:ok, phone}
-      end
-      case birth_date do
-        nil -> {:error}
-        _ -> {:ok, birth_date}
-      end
-
-      Model.create(profile_id, email, phone, birth_date)
     end
 
     @spec get(Integer, opts :: Map) :: {Atom, Map}
 
     def get(profile_id, opts \\ :all) do
       profile = Model.get(profile_id)
-
       case profile do
+
         {:error} -> {:error}
         _ -> {:ok, profile}
       end
@@ -58,5 +51,23 @@ defmodule Careers.Profile do
               end
           end
       end
+    end
+
+    @spec update_nickname(Interger, String.t) :: {Atom, List}
+
+    def update_nickname(profile_id, nickname) do
+        case Model.get(profile_id) do
+            {:error} -> {:error, "No profile with that id"}
+            profile -> Model.update_nickname(profile.id, nickname)
+        end
+    end
+
+    @spec get_nickname(Interger) :: {List}
+
+    def get_nickname(profile_id, opt\\ :is_active) do
+        case Model.get(profile_id) do
+            {:error} -> {:error, "No profile with that id"}
+            profile -> Model.get_nickname(profile.id, opt)
+        end
     end
 end

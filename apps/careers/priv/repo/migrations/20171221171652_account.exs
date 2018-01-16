@@ -8,6 +8,6 @@ defmodule Careers.Repo.Migrations.Account do
         add :password, :string
         timestamps type: :utc_datetime
       end
-
+      create unique_index(:accounts, [:username])
     end
 end

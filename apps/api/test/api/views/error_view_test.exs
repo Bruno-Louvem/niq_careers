@@ -11,11 +11,11 @@ defmodule Api.ErrorViewTest do
 
   test "render 500.json" do
     assert render_to_string(Api.ErrorView, "500.json", []) ==
-           "{\"error\":\"Internal server error\"}"
+           "{\"error\":\"Invalid Request\"}"
   end
 
   test "render any other" do
     assert render_to_string(Api.ErrorView, "505.json", []) ==
-    "{\"error\":\"Internal server error\"}"
+    "{\"error\":\"Invalid Request\"}"
   end
 end

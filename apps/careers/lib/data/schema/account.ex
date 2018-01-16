@@ -31,6 +31,7 @@ defmodule Careers.Data.Schema.Account do
       instance
       |> cast(params, fields)
       |> validate_required(fields)
+      |> unique_constraint(:username, message: "Username already taken")
       |> validate_length(:password, min: 6)
       |> validate_length(:username, min: 3)
     end
