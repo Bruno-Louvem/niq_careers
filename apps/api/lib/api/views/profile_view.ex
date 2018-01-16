@@ -5,8 +5,10 @@ defmodule Api.ProfileView do
         %{profiles_id: profiles}
     end
 
-    def render("profile.json", %{profile_id: profiles, nick_active: nickname}) do
-        %{profiles_id: profiles, nick_active: nickname}
+    def render("profile.json", %{profiles_id: profiles, profile_phone: phone,
+                                profile_email: email, nick_active: nickname}) do
+        %{nick_active: nickname, profiles_id: profiles,
+            profile_email: email, profile_phone: phone}
     end
 
     def render("nickname.json", %{nicknames: nickname}) do

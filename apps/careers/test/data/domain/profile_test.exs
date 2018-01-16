@@ -122,8 +122,8 @@ defmodule Careers.Test.Data.Domain.Profile do
         assert phone == Profile.get(profile.id, :phone)
         assert accounts_id == Profile.get(profile.id, :account_id)
         assert birth_date == Profile.get(profile.id, :birth_date)
-        assert [{nickname, _}] = Profile.get_nickname(profile.id)
-
+        assert [{nick, _}] = Profile.get_nickname(profile.id)
+        assert nickname == nick
     end
 
     test "Do not: get profile. Why? invalid 97.1% apps/careers/lib/data/model/profile.ex                            103       35        1

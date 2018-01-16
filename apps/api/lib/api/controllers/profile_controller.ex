@@ -46,7 +46,9 @@ defmodule Api.ProfileController do
         case do_get_profile(profile_id) do
             {:ok, profile} ->
                 [{nickname, _}] = Profile.get_nickname(profile.id, :active)
-                render(conn, "profile.json", %{profile_id: profile.id,
+                render(conn, "profile.json", %{profiles_id: profile.id,
+                                               profile_phone: profile.phone,
+                                               profile_email: profile.email,
                                                nick_active: nickname})
 
             {:error, message, code} ->
